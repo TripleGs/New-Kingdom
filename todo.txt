@@ -1,0 +1,17 @@
+- make a more sophisticated sound set up and creation.
+- Go through and clean other things to make sounds, fonts, more module
+- Add a space station
+- Come up with a world generation w/ "biomes"
+- Create fuel amount, chunks?
+
+Phase 1 (Core Game Mechanics):
+- The player should spawn at the space station
+- The player should have a fuel bar that goes down the more it goes
+- The player score should be replaced with money
+- The player money should not increase unless they deploy an arm to grab the asteriod chunks
+- When the player goes to the space station they have the option to sell and to purchase fuel
+- At the space station the player should be able to purchase upgrades (capacity, bullets, fuel tank)
+- Recovery ship that gets the player when they run out of fuel that cost money.
+
+Phase 2 (World Exploration):
+- Should have chunk generation that would be restricted in exploration by not having a large enough fuel tank 
