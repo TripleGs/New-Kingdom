@@ -1,5 +1,7 @@
 import random
-from ..util.vectorsprites import *
+from util.point import Point
+from util.vector2d import Vector2d
+
 
 class Debris(Point):    
      

@@ -1,6 +1,7 @@
 import random
 import math
-from ..util.vectorsprites import *
+from util.vector2d import Vector2d
+from util.vectorsprites import VectorSprite
 
 class Crystal(VectorSprite):
     """Collectible crystals that drop from destroyed small rocks"""

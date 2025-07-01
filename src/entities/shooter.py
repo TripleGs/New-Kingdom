@@ -1,6 +1,7 @@
 import random
-from ..util.vectorsprites import *
-from ..util import *
+from util.point import Point
+from util.vector2d import Vector2d
+from util.vectorsprites import VectorSprite
 
 
 class Shooter(VectorSprite):

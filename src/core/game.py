@@ -24,7 +24,7 @@ from .shop import Shop
 from .fuel_system import FuelSystem
 from .rescue_system import RescueSystem
 from .ui_manager import UIManager
-from .crystal_system import CrystalSystem
+from .crystal_system.crystal_system import CrystalSystem
 
 
 class Game():
@@ -374,6 +374,12 @@ class Game():
             elif event.type == KEYUP:
                 if event.key == K_o:
                     self.frameAdvance = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Forward mouse click events to active UI components
+                if self.showShop:
+                    self.shop.handle_event(event)
+                elif self.showRescuePrompt:
+                    self.rescueSystem.handle_event(event)
 
     def processKeys(self):
         # Don't process movement keys if out of fuel and showing rescue prompt

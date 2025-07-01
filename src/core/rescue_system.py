@@ -1,6 +1,9 @@
 import pygame
 from ..config.config import FONT_PATH, FONT_SIZES
 
+# UI
+from ..ui.rescue_ui import RescueUI
+
 class RescueSystem:
     """Handles rescue operations when player runs out of fuel"""
     
@@ -8,6 +11,9 @@ class RescueSystem:
         self.game = game
         self.rescueCost = 100  # Cost of rescue service
         self.emergencyFuel = 10  # Amount of fuel given after rescue
+        
+        # UI
+        self.ui = RescueUI(self)
         
     def displayRescuePrompt(self):
         """Display rescue prompt when out of fuel"""
@@ -20,26 +26,8 @@ class RescueSystem:
         overlay.fill((0, 0, 0))
         self.game.stage.screen.blit(overlay, (0, 0))
         
-        font_title = pygame.font.Font(FONT_PATH, FONT_SIZES["subtitle"])
-        font_text = pygame.font.Font(FONT_PATH, FONT_SIZES["normal"])
-        
-        title_text = font_title.render("OUT OF FUEL!", True, (255, 0, 0))
-        title_rect = title_text.get_rect(centerx=self.game.stage.width//2, centery=self.game.stage.height//2 - 50)
-        self.game.stage.screen.blit(title_text, title_rect)
-        
-        prompt_text = font_text.render("Press R to call for rescue", True, (255, 255, 255))
-        prompt_rect = prompt_text.get_rect(centerx=self.game.stage.width//2, centery=self.game.stage.height//2)
-        self.game.stage.screen.blit(prompt_text, prompt_rect)
-        
-        cost_text = font_text.render(f"(Rescue service will cost ${self.rescueCost})", True, (255, 255, 0))
-        cost_rect = cost_text.get_rect(centerx=self.game.stage.width//2, centery=self.game.stage.height//2 + 30)
-        self.game.stage.screen.blit(cost_text, cost_rect)
-        
-        # Show current money
-        if self.game.money < self.rescueCost:
-            money_text = font_text.render(f"Insufficient funds! You have ${self.game.money}", True, (255, 0, 0))
-            money_rect = money_text.get_rect(centerx=self.game.stage.width//2, centery=self.game.stage.height//2 + 60)
-            self.game.stage.screen.blit(money_text, money_rect)
+        # Delegate drawing to UI
+        self.ui.draw(self.game.stage.screen)
     
     def handleRescueRequest(self):
         """Handle rescue service request"""
@@ -69,6 +57,12 @@ class RescueSystem:
             
             # Focus camera on ship
             self.game.camera.setTarget(self.game.ship)
+            
+            # Stop all movement
+            self.game.ship.heading.x = 0
+            self.game.ship.heading.y = 0
+            # Also ensure thrust jet not accelerating
+            self.game.ship.thrustJet.accelerating = False
     
     def isRescueNeeded(self):
         """Check if rescue is currently needed"""
@@ -77,3 +71,8 @@ class RescueSystem:
     def canAffordRescue(self):
         """Check if player can afford rescue service"""
         return self.game.money >= self.rescueCost 
+
+    # ------------------------------------------------------------------
+    def handle_event(self, event):
+        """Pass pygame events to UI for buttons."""
+        self.ui.handle_event(event) 
